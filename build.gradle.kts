@@ -38,10 +38,13 @@ dependencies {
     compileOnly(kotlin("reflect"))
 
     // Compile Minestom into project
-    compileOnly("com.github.Minestom:Minestom:-SNAPSHOT")
+    compileOnly("com.github.Minestom:Minestom:f26e6ef91f")
 
     // import kotlinx serialization
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+
+    // add KStom
+    compileOnly("com.github.Project-Cepi:KStom:756d928cf8")
 }
 tasks.withType<Test> {
     useJUnitPlatform()
