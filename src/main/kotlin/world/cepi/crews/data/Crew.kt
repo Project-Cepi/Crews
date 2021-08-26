@@ -7,9 +7,25 @@ import java.time.Duration
 class Crew(
     val members: List<Player> = listOf(),
     var isPrivate: Boolean = true,
-    val invites: Map<Player, Int>
+    private val invites: MutableMap<Player, Long>
 ) {
 
+    companion object {
+        val inviteDecay = Duration.of(5, TimeUnit.MINUTE)
+    }
+
+    fun invite(player: Player) {
+        invites[player] = System.currentTimeMillis()
+    }
+
+    fun isInvited(player: Player): Boolean {
+        cleanInvites()
+        return invites.containsKey(player)
+    }
+
+    fun cleanInvites() {
+        invites.values.removeIf { System.currentTimeMillis() - inviteDecay.toMillis() > it }
+    }
 
 
 }

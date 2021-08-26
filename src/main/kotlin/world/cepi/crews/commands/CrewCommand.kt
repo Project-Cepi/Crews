@@ -14,6 +14,10 @@ object CrewCommand : Command("crew") {
 
         val user = ArgumentPlayer("user")
 
+        addSyntax(create) {
+
+        }
+
         addSyntax(invite, user) {
 
         }
