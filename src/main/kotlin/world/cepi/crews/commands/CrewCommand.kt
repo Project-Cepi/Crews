@@ -12,6 +12,10 @@ object CrewCommand : Command("crew") {
         
         val invite = "invite".literal()
 
+        val disband = "disband".literal()
+
+        val accept = "accept".literal()
+
         val user = ArgumentPlayer("user")
 
         addSyntax(create) {
@@ -19,6 +23,14 @@ object CrewCommand : Command("crew") {
         }
 
         addSyntax(invite, user) {
+
+        }
+
+        addSyntax(disband) {
+
+        }
+
+        addSyntax(accept, user) {
 
         }
     }
