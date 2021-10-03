@@ -2,30 +2,35 @@ package world.cepi.crews
 
 import net.minestom.server.entity.Player
 import world.cepi.crews.data.Crew
-import java.lang.ref.WeakReference
 
 object CrewManager {
 
-    val crewToPlayer = mutableMapOf<WeakReference<Player>, Crew>()
+    val crewToPlayer = mutableMapOf<Player, Crew>()
 
-    val crewInviteToPlayer = mutableMapOf<WeakReference<Player>, Crew>()
+    val crewInviteToPlayer = mutableMapOf<Player, Crew>()
 
     fun hasCrew(player: Player) =
-        crewToPlayer.containsKey(WeakReference(player))
+        crewToPlayer.containsKey(player)
 
     fun createCrew(player: Player) {
-        crewToPlayer[WeakReference(player)] = Crew(mutableListOf(player))
+        crewToPlayer[player] = Crew(mutableListOf(player))
     }
 
-    fun getCrew(player: Player) = crewToPlayer[WeakReference(player)]
+    fun getCrew(player: Player) = crewToPlayer[player]
 
     fun disbandCrew(owner: Player): Boolean {
-        (getCrew(owner) ?: return false).disband()
+        val crew = getCrew(owner) ?: return false
+
+        crew.disband()
+
+        crew.members.forEach {
+            crewToPlayer.remove(it)
+        }
 
         return true
     }
 
     fun hasInvite(player: Player) =
-        crewInviteToPlayer.containsKey(WeakReference(player))
+        crewInviteToPlayer.containsKey(player)
 
 }

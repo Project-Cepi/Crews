@@ -20,6 +20,7 @@ object CrewCommand : Kommand({
     syntax(create) {
         if (CrewManager.hasCrew(player)) {
             player.sendMessage("You are already in a crew!")
+            return@syntax
         }
 
         CrewManager.createCrew(player)
@@ -35,6 +36,7 @@ object CrewCommand : Kommand({
 
         if (!CrewManager.hasCrew(player)) {
             player.sendMessage("You are not in a crew!")
+            return@syntax
         }
 
         CrewManager.disbandCrew(player)
