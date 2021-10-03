@@ -1,38 +1,48 @@
 package world.cepi.crews.commands
 
-import net.minestom.server.command.builder.Command
-import world.cepi.kstom.command.addSyntax
+import world.cepi.crews.CrewManager
 import world.cepi.kstom.command.arguments.ArgumentPlayer
 import world.cepi.kstom.command.arguments.literal
+import world.cepi.kstom.command.kommand.Kommand
 
-object CrewCommand : Command("crew") {
+object CrewCommand : Kommand({
 
-    init {
-        val create = "create".literal()
-        
-        val invite = "invite".literal()
+    val create by literal
 
-        val disband = "disband".literal()
+    val invite by literal
 
-        val accept = "accept".literal()
+    val disband by literal
 
-        val user = ArgumentPlayer("user")
+    val accept by literal
 
-        addSyntax(create) {
+    val user = ArgumentPlayer("user")
 
+    syntax(create) {
+        if (CrewManager.hasCrew(player)) {
+            player.sendMessage("You are already in a crew!")
         }
 
-        addSyntax(invite, user) {
+        CrewManager.createCrew(player)
 
-        }
-
-        addSyntax(disband) {
-
-        }
-
-        addSyntax(accept, user) {
-
-        }
+        player.sendMessage("Crew created! Invite players using /crew invite (player)")
     }
 
-}
+    syntax(invite, user) {
+
+    }
+
+    syntax(disband) {
+
+        if (!CrewManager.hasCrew(player)) {
+            player.sendMessage("You are not in a crew!")
+        }
+
+        CrewManager.disbandCrew(player)
+
+    }
+
+    syntax(accept, user) {
+
+    }
+
+}, "crew")
