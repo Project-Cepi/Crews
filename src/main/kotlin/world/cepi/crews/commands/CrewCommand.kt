@@ -34,8 +34,6 @@ object CrewCommand : Kommand({
             return@syntax
         }
 
-        val crew = player.crew ?: return@syntax
-
         if ((!user).crew != null) {
             player.sendMessage("This user is already in a crew!")
         }
