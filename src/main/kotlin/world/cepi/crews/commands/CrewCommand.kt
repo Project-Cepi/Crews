@@ -1,6 +1,7 @@
 package world.cepi.crews.commands
 
 import world.cepi.crews.CrewManager
+import world.cepi.crews.crew
 import world.cepi.kstom.command.arguments.ArgumentPlayer
 import world.cepi.kstom.command.arguments.literal
 import world.cepi.kstom.command.kommand.Kommand
@@ -33,6 +34,12 @@ object CrewCommand : Kommand({
             return@syntax
         }
 
+        val crew = player.crew ?: return@syntax
+
+        if ((!user).crew != null) {
+            player.sendMessage("This user is already in a crew!")
+        }
+
         CrewManager.invitePlayer(player, !user)
 
         player.sendMessage("Invited ${(!user).username}")
@@ -46,7 +53,7 @@ object CrewCommand : Kommand({
             return@syntax
         }
 
-        val crew = CrewManager.getCrew(player) ?: return@syntax
+        val crew = CrewManager.get(player) ?: return@syntax
 
         player.sendMessage("Members: " + crew.members.joinToString(", ") { it.username })
     }
@@ -62,8 +69,8 @@ object CrewCommand : Kommand({
 
     }
 
-    syntax(accept, user) {
-
+    syntax(accept) {
+        CrewManager.acceptInvite(player)
     }
 
 }, "crew")
