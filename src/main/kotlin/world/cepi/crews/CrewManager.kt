@@ -30,6 +30,12 @@ object CrewManager {
         return true
     }
 
+    fun invitePlayer(owner: Player, player: Player): Boolean {
+        getCrew(owner)?.invite(player) ?: return false
+
+        return true
+    }
+
     fun hasInvite(player: Player) =
         crewInviteToPlayer.containsKey(player)
 
