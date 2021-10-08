@@ -46,6 +46,7 @@ object CrewCommand : Kommand({
                 "crews", "user.in",
                 Component.text((!user).username, NamedTextColor.BLUE)
             )
+            return@syntax
         }
 
         CrewManager.invitePlayer(player, !user)
