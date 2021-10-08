@@ -1,7 +1,10 @@
 package world.cepi.crews.commands
 
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import world.cepi.crews.CrewManager
 import world.cepi.crews.crew
+import world.cepi.kepi.messages.sendFormattedTranslatableMessage
 import world.cepi.kstom.command.arguments.ArgumentPlayer
 import world.cepi.kstom.command.arguments.literal
 import world.cepi.kstom.command.kommand.Kommand
@@ -18,48 +21,61 @@ object CrewCommand : Kommand({
 
     syntax(create) {
         if (CrewManager.hasCrew(player)) {
-            player.sendMessage("You are already in a crew!")
+            player.sendFormattedTranslatableMessage("crews", "in")
             return@syntax
         }
 
         CrewManager.createCrew(player)
 
-        player.sendMessage("Crew created! Invite players using /crew invite (player)")
+        player.sendFormattedTranslatableMessage("crews", "create")
     }
 
     syntax(invite, user) {
 
         if (!CrewManager.hasCrew(player)) {
-            player.sendMessage("You are not in a crew!")
+            player.sendFormattedTranslatableMessage("crews", "in.not")
             return@syntax
         }
 
         if ((!user).crew != null) {
-            player.sendMessage("This user is already in a crew!")
+            player.sendFormattedTranslatableMessage(
+                "crews", "user.in",
+                Component.text((!user).username, NamedTextColor.BLUE)
+            )
         }
 
         CrewManager.invitePlayer(player, !user)
 
-        player.sendMessage("Invited ${(!user).username}")
-        sender.sendMessage("${player.username} invited you!")
+        player.sendFormattedTranslatableMessage(
+            "crews", "invite",
+            Component.text((!user).username, NamedTextColor.BLUE)
+        )
+
+        sender.sendFormattedTranslatableMessage(
+            "crews", "invited",
+            Component.text(player.username, NamedTextColor.BLUE)
+        )
 
     }
 
     syntax(list) {
         if (!CrewManager.hasCrew(player)) {
-            player.sendMessage("You are not in a crew!")
+            player.sendFormattedTranslatableMessage("crews", "in.not")
             return@syntax
         }
 
-        val crew = CrewManager.get(player) ?: return@syntax
+        val crew = CrewManager[player] ?: return@syntax
 
-        player.sendMessage("Members: " + crew.members.joinToString(", ") { it.username })
+        player.sendFormattedTranslatableMessage(
+            "crews", "members",
+            Component.text(crew.members.joinToString(", ") { it.username })
+        )
     }
 
     syntax(disband) {
 
         if (!CrewManager.hasCrew(player)) {
-            player.sendMessage("You are not in a crew!")
+            player.sendFormattedTranslatableMessage("crews", "in.not")
             return@syntax
         }
 
@@ -68,6 +84,11 @@ object CrewCommand : Kommand({
     }
 
     syntax(accept) {
+        if (CrewManager.hasCrew(player)) {
+            player.sendFormattedTranslatableMessage("crews", "in")
+            return@syntax
+        }
+
         CrewManager.acceptInvite(player)
     }
 
