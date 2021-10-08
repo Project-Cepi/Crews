@@ -6,6 +6,7 @@ import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import world.cepi.crews.CrewManager
 import world.cepi.crews.crew
+import world.cepi.crews.data.Crew
 import world.cepi.kepi.messages.sendFormattedMessage
 import world.cepi.kepi.messages.sendFormattedTranslatableMessage
 import world.cepi.kepi.messages.translations.formatTranslableMessage
@@ -20,6 +21,7 @@ object CrewCommand : Kommand({
     val disband by literal
     val accept by literal
     val list by literal
+    val leave by literal
 
     val user = ArgumentPlayer("user")
 
@@ -29,7 +31,7 @@ object CrewCommand : Kommand({
             return@syntax
         }
 
-        CrewManager.createCrew(player)
+        Crew(player)
 
         player.sendFormattedTranslatableMessage("crews", "create")
     }
@@ -77,7 +79,7 @@ object CrewCommand : Kommand({
 
         player.sendFormattedTranslatableMessage(
             "crews", "members",
-            Component.text(crew.members.joinToString(", ") { it.username })
+            Component.text(crew.members.keys.joinToString(", ") { it.username })
         )
     }
 
@@ -88,7 +90,7 @@ object CrewCommand : Kommand({
             return@syntax
         }
 
-        CrewManager.disbandCrew(player)
+        player.crew?.disband()
 
     }
 
@@ -99,6 +101,19 @@ object CrewCommand : Kommand({
         }
 
         CrewManager.acceptInvite(player)
+    }
+
+    syntax(leave) {
+        if (!CrewManager.hasCrew(player)) {
+            player.sendFormattedTranslatableMessage("crews", "in.not")
+            return@syntax
+        }
+
+        if (player.crew?.get(player)?.isOwner() == true) {
+            player.sendFormattedTranslatableMessage("crews", "leave.denied")
+        }
+
+        player.crew?.leave(player)
     }
 
 }, "crew")
