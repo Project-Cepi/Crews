@@ -6,6 +6,7 @@ import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import world.cepi.crews.CrewManager
 import world.cepi.crews.crew
+import world.cepi.kepi.messages.sendFormattedMessage
 import world.cepi.kepi.messages.sendFormattedTranslatableMessage
 import world.cepi.kepi.messages.translations.formatTranslableMessage
 import world.cepi.kstom.command.arguments.ArgumentPlayer
@@ -54,12 +55,14 @@ object CrewCommand : Kommand({
             Component.text((!user).username, NamedTextColor.BLUE)
         )
 
-        sender.sendMessage(sender.formatTranslableMessage(
-            "crews", "invited",
-            Component.text(player.username, NamedTextColor.BLUE)
-        )
+        sender.sendFormattedMessage(
+            sender.formatTranslableMessage(
+                "crews", "invited",
+                Component.text(player.username, NamedTextColor.BLUE)
+            )
             .hoverEvent(HoverEvent.showText(sender.formatTranslableMessage("common", "click.to_open")))
-            .clickEvent(ClickEvent.runCommand("/crew accept")))
+            .clickEvent(ClickEvent.runCommand("/crew accept"))
+        )
 
     }
 
