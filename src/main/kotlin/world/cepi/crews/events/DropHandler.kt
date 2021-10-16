@@ -4,6 +4,8 @@ import net.minestom.server.event.item.ItemDropEvent
 import net.minestom.server.entity.ItemEntity
 import net.minestom.server.entity.Player
 import net.minestom.server.event.item.PickupItemEvent
+import net.minestom.server.potion.Potion
+import net.minestom.server.potion.PotionEffect
 import net.minestom.server.utils.time.TimeUnit
 import world.cepi.crews.crew
 
@@ -18,6 +20,7 @@ object DropHandler {
         itemEntity.isAutoViewable = false
         itemEntity.setInstance(player.instance!!, player.position.add(.0, 1.5, .0))
         (player.crew?.members?.keys ?: listOf(player)).forEach { itemEntity.addViewer(it) }
+        itemEntity.isGlowing = true
         val velocity = player.position.direction().mul(6.0)
         itemEntity.velocity = velocity
     }
