@@ -22,7 +22,9 @@ object CrewManager {
     fun acceptInvite(player: Player): Boolean {
         val invite = crewInviteToPlayer[player] ?: return false
 
-        invite.crew.add(player)
+        invite.crew.add(player, CrewRank.MEMBER)
+
+        crewToPlayer[player] = invite.crew
 
         return true
     }

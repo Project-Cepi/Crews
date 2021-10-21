@@ -27,12 +27,20 @@ class Crew(
 
     fun add(player: Player, rank: CrewRank = CrewRank.CAPTAIN) {
         members[player] = CrewPlayer(player, rank)
+
+        if (rank == CrewRank.MEMBER) {
+            members.forEach {
+                it.key.sendFormattedTranslatableMessage("crews", "accept", Component.text(player.username, NamedTextColor.BLUE))
+            }
+        }
     }
 
     operator fun get(player: Player) = members[player]
 
     fun leave(player: Player) {
         members.remove(player)
+
+        CrewManager.crewToPlayer.remove(player)
 
         members.keys.forEach {
             it.sendFormattedTranslatableMessage("crews", "leave", Component.text(it.username, NamedTextColor.BLUE))
@@ -44,6 +52,8 @@ class Crew(
             it.sendFormattedTranslatableMessage("crews", "disband")
             CrewManager.crewToPlayer.remove(it)
         }
+
+        members.clear()
     }
 
 

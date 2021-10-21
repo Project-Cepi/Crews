@@ -58,12 +58,12 @@ object CrewCommand : Kommand({
             Component.text((!user).username, NamedTextColor.BLUE)
         )
 
-        sender.sendFormattedMessage(
-            sender.formatTranslableMessage(
+        (!user).sendFormattedMessage(
+            (!user).formatTranslableMessage(
                 "crews", "invited",
                 Component.text(player.username, NamedTextColor.BLUE)
             )
-            .hoverEvent(HoverEvent.showText(sender.formatTranslableMessage("common", "click.to_open")))
+            .hoverEvent(HoverEvent.showText((!user).formatTranslableMessage("common", "click.to_open")))
             .clickEvent(ClickEvent.runCommand("/crew accept"))
         )
 
