@@ -39,8 +39,7 @@ object CrewCommand : Kommand({
     syntax(invite, user) {
 
         if (!CrewManager.hasCrew(player)) {
-            player.sendFormattedTranslatableMessage("crews", "in.not")
-            return@syntax
+            Crew(player)
         }
 
         if ((!user).crew != null) {
