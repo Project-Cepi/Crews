@@ -3,9 +3,9 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     // Apply the Kotlin JVM plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
     // Kotlinx serialization for any data format
-    kotlin("plugin.serialization") version "1.5.31"
+    kotlin("plugin.serialization") version "1.6.0"
     // Shade the plugin
     id("com.github.johnrengelman.shadow") version "7.0.0"
     // Allow publishing
@@ -38,7 +38,7 @@ dependencies {
     compileOnly(kotlin("reflect"))
 
     // Compile Minestom into project
-    compileOnly("com.github.Minestom:Minestom:f26e6ef91f")
+    compileOnly("com.github.Minestom:Minestom:8410de18d2")
 
     // import kotlinx serialization
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
@@ -82,13 +82,13 @@ tasks {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 
 val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions.jvmTarget = JavaVersion.VERSION_16.toString()
+compileKotlin.kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
 
 compileKotlin.kotlinOptions {
     freeCompilerArgs = listOf("-Xinline-classes")
