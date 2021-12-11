@@ -6,5 +6,8 @@
     "KStom",
     "Kepi",
     "Gooey"
-  ]
+  ],
+  "meta": {
+    "downloadURL": "https://github.com/Project-Cepi/Crews/releases/download/latest/Crews-1.0.0-all.jar"
+  }
 }
