@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.NamedTextColor
+import net.minestom.server.entity.Player
 import world.cepi.crews.CrewManager
 import world.cepi.crews.crew
 import world.cepi.crews.data.Crew
@@ -25,15 +26,21 @@ object CrewCommand : Kommand({
 
     val user = ArgumentPlayer("user")
 
-    syntax(create) {
+    fun createCrew(player: Player) {
         if (CrewManager.hasCrew(player)) {
             player.sendFormattedTranslatableMessage("crews", "in")
-            return@syntax
+            return
         }
 
         Crew(player)
 
         player.sendFormattedTranslatableMessage("crews", "create")
+    }
+
+    default { createCrew(player) }
+
+    syntax(create) {
+        createCrew(player)
     }
 
     syntax(invite, user) {
