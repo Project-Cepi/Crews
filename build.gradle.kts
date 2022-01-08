@@ -38,7 +38,7 @@ dependencies {
     compileOnly(kotlin("reflect"))
 
     // Compile Minestom into project
-    compileOnly("com.github.Minestom:Minestom:8410de18d2")
+    compileOnly("com.github.Minestom:Minestom:4ee5cbe424")
 
     // import kotlinx serialization
     compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
@@ -46,7 +46,7 @@ dependencies {
     compileOnly("com.github.Project-Cepi:Kepi:a4fad2c36f")
 
     // add KStom
-    compileOnly("com.github.Project-Cepi:KStom:e1158a629f")
+    compileOnly("com.github.Project-Cepi:KStom:05b5e1f2a1")
 }
 tasks.withType<Test> {
     useJUnitPlatform()
@@ -62,7 +62,7 @@ configurations {
 tasks {
     processResources {
         // Apply properties to extension.json
-        filesMatching("extension.json") {
+        filesMatching("META-INF/extension.json") {
             expand(project.properties)
         }
     }

@@ -5,25 +5,29 @@ import world.cepi.crews.commands.CrewCommand
 import world.cepi.crews.commands.PartyFauxCommand
 import world.cepi.crews.events.DropHandler
 import world.cepi.kstom.event.listenOnly
+import world.cepi.kstom.util.log
+import world.cepi.kstom.util.node
 
 class Crews : Extension() {
 
-    override fun initialize() {
+    override fun initialize(): LoadStatus {
 
         CrewCommand.register()
         PartyFauxCommand.register()
 
-        eventNode.listenOnly(DropHandler::drop)
-        eventNode.listenOnly(DropHandler::pickup)
+        node.listenOnly(DropHandler::drop)
+        node.listenOnly(DropHandler::pickup)
 
-        logger.info("[Crews] has been enabled!")
+        log.info("[Crews] has been enabled!")
+
+        return LoadStatus.SUCCESS
     }
 
     override fun terminate() {
 
         CrewCommand.unregister()
 
-        logger.info("[Crews] has been disabled!")
+        log.info("[Crews] has been disabled!")
     }
 
 }
